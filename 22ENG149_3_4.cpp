@@ -52,7 +52,6 @@ public:
 
     void deleteValue(int data) {
         if (!search(data)) {
-            cout << "Data not found" << endl;
             return;
         }
 
@@ -220,13 +219,13 @@ int main()
     
     int numberOfTreeNodes, choice,value;
 
-    cout << "Enter the number of TreeNodes: ";
+    cout << "Enter the number of Nodes: ";
     cin >> numberOfTreeNodes;
     cin.ignore();  // To ignore the newline character after the number of TreeTreeTreeNodes
 
     BinarySearchTree tree;
 
-    cout << "Enter the values of TreeNodes separated by space: ";
+    cout << "Enter the values separated by space: ";
 
     string input;
     getline(cin, input);  // Read the entire line of input
