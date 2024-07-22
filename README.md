@@ -1,5 +1,5 @@
 # Find the Pair in a Binary Search Tree (BST)
-This project implements a program to find all pairs of values from a given Binary Search Tree (BST) where the sum is equal to a specified value.
+This program finds all pairs of values in a Binary Search Tree (BST) where the sum of each pair equals a specified value. It constructs the BST from user-provided input, then identifies and prints all such pairs.
 
 ## Overview
 The program constructs a BST from user input and then finds and prints all pairs of values within the BST that add up to a given target sum.
