@@ -2,11 +2,7 @@
 #include <sstream>
 using namespace std;
 
-
-#include <iostream>
-using namespace std;
-
-class LinkedListNode {
+class LinkedListNode { // Node of the linked list
 public:
     int data;
     LinkedListNode* next;
@@ -26,7 +22,7 @@ public:
         head = nullptr;
     }
 
-    void addData_toEnd(int data) {
+    void addData_toEnd(int data) { // Add data to the end of the linked list
         LinkedListNode* newNode = new LinkedListNode(data);
 
         if (head == nullptr) {
@@ -41,16 +37,18 @@ public:
         }
     }
 
-    bool search(int data) const {
+    bool search(int data) const { // Search for the given data in the linked list and return true if found
         LinkedListNode* temp = head;
         while (temp != nullptr) {
-            if (temp->data == data) return true;
+            if (temp->data == data) {
+                return true;
+            }
             temp = temp->next;
         }
         return false;
     }
 
-    void deleteValue(int data) {
+    void deleteValue(int data) { // Delete the given data from the linked list
         if (!search(data)) {
             return;
         }
@@ -63,9 +61,9 @@ public:
             temp = temp->next;
         }
 
-        if (temp == head) {
-            head = temp->next;
-            delete temp;
+        if (temp == head) { // If the data to be deleted is the first element
+            head = temp->next; // Update the head to the next element
+            delete temp; // Delete the first element
         }
         else {
             tempPrv->next = temp->next;
@@ -73,11 +71,11 @@ public:
         }
     }
 
-    LinkedListNode* getHead() const {
+    LinkedListNode* getHead() const { // Return the head of the linked list
         return head;
     }
 
-    void deleteLinkedList() {
+    void deleteLinkedList() { // Delete the entire linked list
 		LinkedListNode* temp = head;
 		while (head != nullptr) {
 			temp = head;
@@ -87,7 +85,7 @@ public:
 	}
 };
 
-class TreeNode {
+class TreeNode { // Node of the binary search tree
 public:
     int data;
     TreeNode* leftChild;
@@ -109,7 +107,7 @@ public:
         root = nullptr;
     }
 
-    void insert(TreeNode*& current, int data) {
+    void insert(TreeNode*& current, int data) { // Insert the data into the binary search tree
         if (current == nullptr) {
             TreeNode* node = new TreeNode(data);
             current = node;
@@ -128,7 +126,7 @@ public:
         insert(root, data);
     }
 
-    TreeNode* search(TreeNode* current, int data) const {
+    TreeNode* search(TreeNode* current, int data) const { // Search for the given data in the binary search tree
         while (current != nullptr) {
             if (data < current->data) {
                 current = current->leftChild;
@@ -137,57 +135,58 @@ public:
                 current = current->rightChild;
             }
             else {
-                return current;
+                return current; // Return the node if the data is found
             }
         }
-        return nullptr;
+        return nullptr; // Return nullptr if the data is not found
     }
 
     TreeNode* search(int data) const {
         return search(root, data);
     }
 
-    void findPair(int value) {
-        if (root == nullptr) {
+    void findPair(int value) { // Find the pairs of elements in the binary search tree that sum up to the given value
+        if (root == nullptr) { // If the tree is empty
             cout << "No pairs found" << endl;
             return;
         }
 
-        LinkedList firstElement, secondElement;
-        LinkedList useNode;
-        useNode.addData_toEnd(root->data); // Initialize with root
+        LinkedList firstElement, secondElement; // To store the first and second elements of the pairs
+        LinkedList useNode; // LinkedList to go through the tree
+        useNode.addData_toEnd(root->data); // Start with the root node
 
-        while (useNode.getHead() != nullptr) {
-            TreeNode* current = search(useNode.getHead()->data);
+        while (useNode.getHead() != nullptr) { // While there are elements to process in the linked list
+            TreeNode* current = search(useNode.getHead()->data); // Get the current node from the linked list
 
-            int difference = value - current->data;
-            if (difference > current->data) {
-                TreeNode* differenceNode = search(difference);
-                if (differenceNode != nullptr) {
-                    firstElement.addData_toEnd(current->data);
-                    secondElement.addData_toEnd(difference);
+            int difference = value - current->data; // Calculate the difference needed to reach the target value
+            if (difference > current->data) { // Check the difference is greater than the current node's data 
+                TreeNode* differenceNode = search(difference); // Search for the node with the difference value
+                if (differenceNode != nullptr) { // If such a node is found
+                    firstElement.addData_toEnd(current->data); // Add the current node's data to the first element list
+                    secondElement.addData_toEnd(difference); // Add the difference to the second element list
                 }
             }
 
-            if (current->leftChild != nullptr) {
-                useNode.addData_toEnd(current->leftChild->data);
+            // Add the left and right children of the current node to the linked list
+            if (current->leftChild != nullptr) { // If the left child exists
+                useNode.addData_toEnd(current->leftChild->data); // Add the left child's data to the linked list
             }
-            if (current->rightChild != nullptr) {
-                useNode.addData_toEnd(current->rightChild->data);
+            if (current->rightChild != nullptr) { // If the right child exists
+                useNode.addData_toEnd(current->rightChild->data); // Add the right child's data to the linked list
             }
 
-            LinkedListNode* temp = useNode.getHead();
+            LinkedListNode* temp = useNode.getHead(); // Remove the processed node from the linked list
             useNode.deleteValue(temp->data);
         }
 
-        if (firstElement.getHead() == nullptr) {
+        if (firstElement.getHead() == nullptr) { // If no pairs are found, inform the user
             cout << "No pairs found";
         }
-        else {
+        else { // Print the pairs found
             cout << "Pairs: ";
             LinkedListNode* first = firstElement.getHead();
             LinkedListNode* second = secondElement.getHead();
-            while (first != nullptr && second != nullptr) {
+            while (first != nullptr && second != nullptr) { // Go through both linked lists and print the pairs
                 cout << "(" << first->data << ", " << second->data << ") ";
                 first = first->next;
                 second = second->next;
@@ -195,12 +194,13 @@ public:
         }
         cout << endl;
 
-        firstElement.deleteLinkedList();
+        firstElement.deleteLinkedList(); // Delete the linked lists
         secondElement.deleteLinkedList();
         useNode.deleteLinkedList();
     }
 
-    void deleteTree(TreeNode* current) {
+
+    void deleteTree(TreeNode* current) { // Delete the binary search tree
         if (current == nullptr) {
             return;
         }
